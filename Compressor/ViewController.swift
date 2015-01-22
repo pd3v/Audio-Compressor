@@ -1,18 +1,25 @@
 //
 //  ViewController.swift
-//  Compressor
+//  SwiftHarmonizer
 //
-//  Created by Paulo on 22/01/15.
-//  Copyright (c) 2015 xyz. All rights reserved.
+//  Created by Nicholas Arner on 10/7/14.
+//  Copyright (c) 2014 Aurelius Prochazka. All rights reserved.
 //
 
 import UIKit
 
 class ViewController: UIViewController {
 
+    let compressor = CompressorInstrument();
+    let sampler = AKSampler();
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+
+        AKOrchestra.addInstrument(compressor)
+        AKOrchestra.start()
+        
+        compressor.play()
     }
 
     override func didReceiveMemoryWarning() {
@@ -20,6 +27,21 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    @IBAction func startRecording(sender: AnyObject) {
+        compressor.play()
+        sampler.startRecordingToTrack("harmonizer")
+    }
+    
+    @IBAction func stopRecording(sender: AnyObject) {
+        compressor.stop()
+        sampler.stopRecordingToTrack("harmonizer")
+    }
+    
+    @IBAction func startPlaying(sender: AnyObject) {
+        sampler.startPlayingTrack("harmonizer")
+    }
 
+    @IBAction func stopPlaying(sender: AnyObject) {
+        sampler.stopPlayingTrack("harmonizer")
+    }
 }
-
