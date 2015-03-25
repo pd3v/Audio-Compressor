@@ -21,21 +21,18 @@ class ViewController: UIViewController {
 
         AKOrchestra.addInstrument(compressor)
         AKOrchestra.start()
-        
-        //println(aA.trackedAmplitude)
     }
     
     override func viewDidAppear(animated: Bool) {
         lblThreshold.text = String(format:"%.f dB", compressor.threshold.value)
         lblCompRatio.text = String(format:"%.f:1", compressor.compRatio.value)
-        lblAttackTime.text = String(format:"%.1f sec", compressor.attackTime.value)
-        lblReleaseTime.text = String(format:"%.1f sec", compressor.releaseTime.value)
+        lblAttackTime.text = String(format:"%.3f sec", compressor.attackTime.value)
+        lblReleaseTime.text = String(format:"%.3f sec", compressor.releaseTime.value)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         AKOrchestra.reset()
-        //AKManager.sharedManager().stop() //? Is object necessary if there sound rounting singleton?
     }
 
     @IBAction func toggleCompressing(sender: UIButton) {
@@ -78,6 +75,6 @@ class ViewController: UIViewController {
     
     @IBAction func releaseTimeChanged(sender: UISlider) {
         AKTools.setProperty(compressor.releaseTime, withSlider: sender)
-        lblReleaseTime.text = String(format:"%.1f sec", sender.value)
+        lblReleaseTime.text = String(format:"%.3f sec", sender.value)
     }
 }
