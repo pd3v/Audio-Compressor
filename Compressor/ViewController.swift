@@ -23,6 +23,8 @@ class ViewController: UIViewController {
     
     var compressor: CompressorInstrument
     var analyzer: AKAudioAnalyzer
+    var analyzerDI: AKAudioAnalyzer
+    //var analyzerSI: AKAudioAnalyzer
     var analysisSequence: AKSequence
     var updateAnalysis: AKEvent
     
@@ -31,6 +33,8 @@ class ViewController: UIViewController {
     required init(coder aDecoder: NSCoder) {
         compressor = CompressorInstrument()
         analyzer = AKAudioAnalyzer()
+        analyzerDI = AKAudioAnalyzer()
+        /*analyzerSI = AKAudioAnalyzer()*/
         analysisSequence = AKSequence()
         updateAnalysis = AKEvent()
         
@@ -48,9 +52,13 @@ class ViewController: UIViewController {
         
         AKOrchestra.addInstrument(compressor)
         analyzer = AKAudioAnalyzer(audioSource: compressor.auxilliaryOutput)
+        analyzerDI = AKAudioAnalyzer(audioSource: compressor.auxilliaryDirectInput)
+        //analyzerSI = AKAudioAnalyzer(audioSource: compressor.auxilliaryScaledInput)
         AKOrchestra.addInstrument(analyzer)
         AKOrchestra.start()
         analyzer.play()
+        analyzerDI.play()
+        //analyzerSI.play()
         
         analysisSequence = AKSequence()
         updateAnalysis = AKEvent(block: {
@@ -91,7 +99,8 @@ class ViewController: UIViewController {
     @IBAction func gainChanged(sender: UISlider) {
         AKTools.setProperty(compressor.gain, withSlider: sender)
         lblGain.text = String(format:"%.1f X", sender.value)
-        //println(scaleTodB(compressor))
+        //println("Direct Input:\(compressor.auxilliaryDirectInput.value) Scaled:\(compressor.auxilliaryScaledInput.value)")
+        //println("Direct input:\(analyzerDI.trackedAmplitude.value)")
     }
     
     @IBAction func thresholdChanged(sender: UISlider) {
@@ -147,6 +156,9 @@ class ViewController: UIViewController {
             if ((timerPeakLevelOff?.valid) != nil) { timerPeakLevelOff?.invalidate() }
             timerPeakLevelOff = NSTimer.scheduledTimerWithTimeInterval(PEAKLEVEL_OFF_RATE, target:self, selector: Selector("turnOffPeakLevelLed"), userInfo: nil, repeats: false)
         }
+        println("Direct input:\(analyzerDI.trackedAmplitude.value)")
+        //println("Scaled input:\(analyzerSI.trackedAmplitude.value)")
+        //println(compressor.inputGain)
     }
     
     func turnOffPeakLevelLed() {
