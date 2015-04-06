@@ -24,7 +24,7 @@ class ViewController: UIViewController {
     var compressor: CompressorInstrument
     var analyzer: AKAudioAnalyzer
     var analyzerDI: AKAudioAnalyzer
-    //var analyzerSI: AKAudioAnalyzer
+    var analyzerSI: AKAudioAnalyzer
     var analysisSequence: AKSequence
     var updateAnalysis: AKEvent
     
@@ -34,7 +34,7 @@ class ViewController: UIViewController {
         compressor = CompressorInstrument()
         analyzer = AKAudioAnalyzer()
         analyzerDI = AKAudioAnalyzer()
-        /*analyzerSI = AKAudioAnalyzer()*/
+        analyzerSI = AKAudioAnalyzer()
         analysisSequence = AKSequence()
         updateAnalysis = AKEvent()
         
@@ -53,12 +53,15 @@ class ViewController: UIViewController {
         AKOrchestra.addInstrument(compressor)
         analyzer = AKAudioAnalyzer(audioSource: compressor.auxilliaryOutput)
         analyzerDI = AKAudioAnalyzer(audioSource: compressor.auxilliaryDirectInput)
-        //analyzerSI = AKAudioAnalyzer(audioSource: compressor.auxilliaryScaledInput)
+        analyzerSI = AKAudioAnalyzer(audioSource: compressor.auxilliaryScaledInput)
         AKOrchestra.addInstrument(analyzer)
+        AKOrchestra.addInstrument(analyzerDI)
+        AKOrchestra.addInstrument(analyzerSI)
         AKOrchestra.start()
         analyzer.play()
         analyzerDI.play()
-        //analyzerSI.play()
+        analyzerSI.play()
+        
         
         analysisSequence = AKSequence()
         updateAnalysis = AKEvent(block: {
@@ -80,16 +83,16 @@ class ViewController: UIViewController {
             compressor.play()
             
             sender.setTitle("On", forState: .Normal)
-            toggleSliders(on: true)
+            toggleSliders(enable: true)
             
         } else {
             compressor.stop()
             
-            // FIXME: To turn off all LevelMeter's leds after audio input is off. Haved tried to empty .events and .times removing entries in both NSMutabelArrays and crashes. Try AKSequence.reset() on AudioKit 2.0.
+            // FIXME: To turn off all LevelMeter's leds after audio input is off. Haved tried to empty .events and .times removing entries in both NSMutabelArrays and crashes. Will try AKSequence.reset() on AudioKit 2.0.
             analysisSequence.stop() // Eases CPU usage
             
             sender.setTitle("Off", forState: .Normal)
-            toggleSliders(on: false)
+            toggleSliders(enable: false)
         }
     }
     
@@ -98,9 +101,9 @@ class ViewController: UIViewController {
     //TODO: Gain values should be in dB. Find the formula to convert amp(?) into dB
     @IBAction func gainChanged(sender: UISlider) {
         AKTools.setProperty(compressor.gain, withSlider: sender)
-        lblGain.text = String(format:"%.1f X", sender.value)
-        //println("Direct Input:\(compressor.auxilliaryDirectInput.value) Scaled:\(compressor.auxilliaryScaledInput.value)")
-        //println("Direct input:\(analyzerDI.trackedAmplitude.value)")
+        //lblGain.text = String(format:"%.1f X", sender.value)
+        lblGain.text = String(format:"%.1f dB", scaleTodB(analyzerDI.trackedAmplitude.value, out: analyzerSI.trackedAmplitude.value))
+        println("scaled:\(sender.value)X Direct input:\(analyzerDI.trackedAmplitude.value) dB:\(scaleTodB(analyzerDI.trackedAmplitude.value, out: analyzerSI.trackedAmplitude.value))")
     }
     
     @IBAction func thresholdChanged(sender: UISlider) {
@@ -125,8 +128,8 @@ class ViewController: UIViewController {
     
     //MARK: Update UI
     
-    func toggleSliders(#on: Bool) {
-        self.view.subviews.filter{ $0 is UISlider }.map{ $0 as UISlider }.map{ $0.enabled = on }
+    func toggleSliders(#enable: Bool) {
+        self.view.subviews.filter{ $0 is UISlider }.map{ $0 as UISlider }.map{ $0.enabled = enable }
     }
     
     func updateSliders() {
@@ -156,9 +159,9 @@ class ViewController: UIViewController {
             if ((timerPeakLevelOff?.valid) != nil) { timerPeakLevelOff?.invalidate() }
             timerPeakLevelOff = NSTimer.scheduledTimerWithTimeInterval(PEAKLEVEL_OFF_RATE, target:self, selector: Selector("turnOffPeakLevelLed"), userInfo: nil, repeats: false)
         }
-        println("Direct input:\(analyzerDI.trackedAmplitude.value)")
+        //println("Direct input:\(analyzerDI.trackedAmplitude.value) dB:\(scaleTodB(analyzerDI.trackedAmplitude.value, out: analyzerSI.trackedAmplitude.value))")
+        //lblGain.text = String(format:"%.1f dB", scaleTodB(analyzerDI.trackedAmplitude.value, out: analyzerSI.trackedAmplitude.value))
         //println("Scaled input:\(analyzerSI.trackedAmplitude.value)")
-        //println(compressor.inputGain)
     }
     
     func turnOffPeakLevelLed() {
@@ -166,8 +169,14 @@ class ViewController: UIViewController {
         levelMeter.setNeedsDisplay()
     }
     
-    //TODO: Test if double/float has impact on CPU. See Apple example - "SpeakHere"
+    //MARK: Conversion formulas
+    //TODO: Test if double/float has impact on CPU and memory. See Apple example - "SpeakHere"
     func amplitudeTodB(amplitude: Double) -> Double {
         return 20 * log10(amplitude)
     }
+    
+    func scaleTodB(inp: Float,out: Float) -> Float {
+        return 20 * log10(out/inp)
+    }
+
 }
