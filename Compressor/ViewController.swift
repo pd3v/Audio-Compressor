@@ -61,8 +61,7 @@ class ViewController: UIViewController {
         analyzer.play()
         analyzerDI.play()
         analyzerSI.play()
-        
-        
+    
         analysisSequence = AKSequence()
         updateAnalysis = AKEvent(block: {
             self.updateLevelMeterUI()
