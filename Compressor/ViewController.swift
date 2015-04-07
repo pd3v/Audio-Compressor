@@ -1,4 +1,7 @@
 
+//  Created by paulo.develop@gmail.com on 22/01/15.
+//  Copyright (c) 2015 xyz. All rights reserved.
+
 import UIKit
 
 class ViewController: UIViewController {
@@ -23,7 +26,6 @@ class ViewController: UIViewController {
     
     var compressor: CompressorInstrument
     var outputAnalyzer: AKAudioAnalyzer
-    //var inputAnalyzer: AKAudioAnalyzer
     var scaledOutputAnalyzer: AKAudioAnalyzer
     var analysisSequence: AKSequence
     var updateAnalysis: AKEvent
@@ -33,7 +35,6 @@ class ViewController: UIViewController {
     required init(coder aDecoder: NSCoder) {
         compressor = CompressorInstrument()
         outputAnalyzer = AKAudioAnalyzer()
-        //inputAnalyzer = AKAudioAnalyzer()
         scaledOutputAnalyzer = AKAudioAnalyzer()
         analysisSequence = AKSequence()
         updateAnalysis = AKEvent()
@@ -52,14 +53,11 @@ class ViewController: UIViewController {
         
         AKOrchestra.addInstrument(compressor)
         outputAnalyzer = AKAudioAnalyzer(audioSource: compressor.auxilliaryOutput)
-        //inputAnalyzer = AKAudioAnalyzer(audioSource: compressor.auxilliaryInput)
         scaledOutputAnalyzer = AKAudioAnalyzer(audioSource: compressor.auxilliaryScaledOutput)
         AKOrchestra.addInstrument(outputAnalyzer)
-        //AKOrchestra.addInstrument(inputAnalyzer)
         AKOrchestra.addInstrument(scaledOutputAnalyzer)
         AKOrchestra.start()
         outputAnalyzer.play()
-        //inputAnalyzer.play()
         scaledOutputAnalyzer.play()
     
         analysisSequence = AKSequence()
@@ -120,7 +118,6 @@ class ViewController: UIViewController {
     @IBAction func gainChanged(sender: UISlider) {
         AKTools.setProperty(compressor.gain, withSlider: sender)
         lblGain.text = String(format:"%.1f dB", scaleTodB(outputAnalyzer.trackedAmplitude.value, out: scaledOutputAnalyzer.trackedAmplitude.value))
-        //println("scaled:\(sender.value)X output:\(analyzer.trackedAmplitude.value) Scaled output:\(scaledOutputAnalyzer.trackedAmplitude.value) dB:\(scaleTodB(analyzer.trackedAmplitude.value, out: scaledOutputAnalyzer.trackedAmplitude.value))")
     }
     
     //MARK: Update UI
@@ -140,7 +137,7 @@ class ViewController: UIViewController {
         lblCompRatio.text = String(format:"%.2f:1", compressor.compRatio.value)
         lblAttackTime.text = String(format:"%.3f sec", compressor.attackTime.value)
         lblReleaseTime.text = String(format:"%.3f sec", compressor.releaseTime.value)
-        lblGain.text = String(format:"%.1f dB", 6.0) // Due to absence of out signal (compressor is turned off), unable to calculate gain value in dB
+        lblGain.text = String(format:"%.1f dB", 6.0) // Due to the absence of out signal (compressor is turned off), unable to calculate gain value in dB
     }
     
     func updateLevelMeterUI() {
@@ -156,9 +153,6 @@ class ViewController: UIViewController {
             if ((timerPeakLevelOff?.valid) != nil) { timerPeakLevelOff?.invalidate() }
             timerPeakLevelOff = NSTimer.scheduledTimerWithTimeInterval(PEAKLEVEL_OFF_RATE, target:self, selector: Selector("turnOffPeakLevelLed"), userInfo: nil, repeats: false)
         }
-        //println("Direct input:\(analyzerDI.trackedAmplitude.value) dB:\(scaleTodB(analyzerDI.trackedAmplitude.value, out: analyzerSI.trackedAmplitude.value))")
-        //lblGain.text = String(format:"%.1f dB", scaleTodB(analyzerDI.trackedAmplitude.value, out: analyzerSI.trackedAmplitude.value))
-        //println("Scaled input:\(analyzerSI.trackedAmplitude.value)")
     }
     
     func turnOffPeakLevelLed() {
@@ -166,8 +160,8 @@ class ViewController: UIViewController {
         levelMeter.setNeedsDisplay()
     }
     
-    //MARK: Conversion formulas from amplitude and scale to dB
-    //TODO: Test if double/float has impact on CPU and memory. See Apple example - "SpeakHere"
+    //MARK: Conversion formulas from amplitude to dB
+    
     func amplitudeTodB(amplitude: Float) -> Float {
         return 20 * log10(amplitude)
     }
