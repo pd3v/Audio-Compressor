@@ -23,19 +23,22 @@ class ViewController: UIViewController {
 
     private let LEVELMETER_REFRESHING_RATE: Float = 0.01
     private let PEAKLEVEL_OFF_RATE: Double = 1.5 // NSTimer.scheduledTimerWithTimeInterval() demands a Double
-    
-    var compressor: CompressorInstrument
+
+    //TODO: Create a directAudio AKInstrument as a bypass to turn on when compressor is turned off
+    var byPassing: ByPassing
+    var compressor: Compressor
     var outputAnalyzer: AKAudioAnalyzer
-    var scaledOutputAnalyzer: AKAudioAnalyzer
+    var notScaledOutputAnalyzer: AKAudioAnalyzer
     var analysisSequence: AKSequence
     var updateAnalysis: AKEvent
     
     private var timerPeakLevelOff: NSTimer?
     
     required init(coder aDecoder: NSCoder) {
-        compressor = CompressorInstrument()
+        byPassing = ByPassing()
+        compressor = Compressor()
         outputAnalyzer = AKAudioAnalyzer()
-        scaledOutputAnalyzer = AKAudioAnalyzer()
+        notScaledOutputAnalyzer = AKAudioAnalyzer()
         analysisSequence = AKSequence()
         updateAnalysis = AKEvent()
         
@@ -45,20 +48,22 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.updateSliders()
+        updateSliders()
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
+        AKOrchestra.addInstrument(byPassing)
         AKOrchestra.addInstrument(compressor)
         outputAnalyzer = AKAudioAnalyzer(audioSource: compressor.auxilliaryOutput)
-        scaledOutputAnalyzer = AKAudioAnalyzer(audioSource: compressor.auxilliaryScaledOutput)
+        notScaledOutputAnalyzer = AKAudioAnalyzer(audioSource: compressor.auxilliaryNotScaledOutput)
         AKOrchestra.addInstrument(outputAnalyzer)
-        AKOrchestra.addInstrument(scaledOutputAnalyzer)
+        AKOrchestra.addInstrument(notScaledOutputAnalyzer)
         AKOrchestra.start()
+        byPassing.play()
         outputAnalyzer.play()
-        scaledOutputAnalyzer.play()
+        notScaledOutputAnalyzer.play()
     
         analysisSequence = AKSequence()
         updateAnalysis = AKEvent(block: {
@@ -75,21 +80,22 @@ class ViewController: UIViewController {
     }
 
     @IBAction func onOffCompressing(sender: UIButton) {
+        toggleSliders()
+        
         if (sender.currentTitle == "Off") {
             analysisSequence.play()
             compressor.play()
+            byPassing.stop()
             
             sender.setTitle("On", forState: .Normal)
-            toggleSliders(enable: true)
             
         } else {
+            byPassing.play()
             compressor.stop()
-            
             // FIXME: To turn off all LevelMeter's leds after audio input is off. Haved tried to empty .events and .times removing entries in both NSMutabelArrays and crashes. Will try AKSequence.reset() on AudioKit 2.0.
             analysisSequence.stop() // Eases CPU usage
             
             sender.setTitle("Off", forState: .Normal)
-            toggleSliders(enable: false)
         }
     }
     
@@ -117,13 +123,17 @@ class ViewController: UIViewController {
     
     @IBAction func gainChanged(sender: UISlider) {
         AKTools.setProperty(compressor.gain, withSlider: sender)
-        lblGain.text = String(format:"%.1f dB", scaleTodB(outputAnalyzer.trackedAmplitude.value, out: scaledOutputAnalyzer.trackedAmplitude.value))
+        lblGain.text = String(format:"%.1f dB", scaleTodB(amp1: notScaledOutputAnalyzer.trackedAmplitude.value, amp2: outputAnalyzer.trackedAmplitude.value))
+        println (scaleTodB(amp1: notScaledOutputAnalyzer.trackedAmplitude.value, amp2: outputAnalyzer.trackedAmplitude.value))
     }
     
     //MARK: Update UI
     
-    func toggleSliders(#enable: Bool) {
-        self.view.subviews.filter{ $0 is UISlider }.map{ $0 as UISlider }.map{ $0.enabled = enable }
+    func toggleSliders() {
+        //self.view.subviews.filter{ $0 is UISlider }.map{ $0 as UISlider }.map{ $0.enabled = !sliderState.enabled }
+        var sliders = self.view.subviews.filter(){ $0 is UISlider } as [UISlider]
+        let isSliderEnabled = sliders.first?.enabled
+        sliders.map{ $0.enabled = !isSliderEnabled! }
     }
     
     func updateSliders() {
@@ -141,13 +151,13 @@ class ViewController: UIViewController {
     }
     
     func updateLevelMeterUI() {
-        if (scaledOutputAnalyzer.trackedAmplitude.value > 0.0) {
-            levelMeter.level = CGFloat(scaledOutputAnalyzer.trackedAmplitude.value)
+        if (outputAnalyzer.trackedAmplitude.value > 0.0) {
+            levelMeter.level = CGFloat(outputAnalyzer.trackedAmplitude.value)
             levelMeter.setNeedsDisplay()
         }
         
-        if (Float(levelMeter.peakLevel) < scaledOutputAnalyzer.trackedAmplitude.value) {
-            levelMeter.peakLevel = CGFloat(scaledOutputAnalyzer.trackedAmplitude.value)
+        if (Float(levelMeter.peakLevel) < outputAnalyzer.trackedAmplitude.value) {
+            levelMeter.peakLevel = CGFloat(outputAnalyzer.trackedAmplitude.value)
             
             //To turn off the peakLevel led, only the most recent timer prevails
             if ((timerPeakLevelOff?.valid) != nil) { timerPeakLevelOff?.invalidate() }
@@ -166,8 +176,7 @@ class ViewController: UIViewController {
         return 20 * log10(amplitude)
     }
     
-    func scaleTodB(inp: Float,out: Float) -> Float {
-        return 20 * log10(out/inp)
+    func scaleTodB(#amp1: Float, amp2: Float) -> Float {
+        return 20 * log10(amp2/amp1)
     }
-
 }
