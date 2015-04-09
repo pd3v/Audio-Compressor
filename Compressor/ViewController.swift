@@ -22,9 +22,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var levelMeter: LevelMeter!
 
     private let LEVELMETER_REFRESHING_RATE: Float = 0.01
-    private let PEAKLEVEL_OFF_RATE: Double = 1.5 // NSTimer.scheduledTimerWithTimeInterval() demands a Double
+    private let PEAKLEVEL_OFF_RATE: Double = 1.5
 
-    //TODO: Create a directAudio AKInstrument as a bypass to turn on when compressor is turned off
     var byPassing: ByPassing
     var compressor: Compressor
     var outputAnalyzer: AKAudioAnalyzer
@@ -124,13 +123,11 @@ class ViewController: UIViewController {
     @IBAction func gainChanged(sender: UISlider) {
         AKTools.setProperty(compressor.gain, withSlider: sender)
         lblGain.text = String(format:"%.1f dB", scaleTodB(amp1: notScaledOutputAnalyzer.trackedAmplitude.value, amp2: outputAnalyzer.trackedAmplitude.value))
-        println (scaleTodB(amp1: notScaledOutputAnalyzer.trackedAmplitude.value, amp2: outputAnalyzer.trackedAmplitude.value))
     }
     
     //MARK: Update UI
     
     func toggleSliders() {
-        //self.view.subviews.filter{ $0 is UISlider }.map{ $0 as UISlider }.map{ $0.enabled = !sliderState.enabled }
         var sliders = self.view.subviews.filter(){ $0 is UISlider } as [UISlider]
         let isSliderEnabled = sliders.first?.enabled
         sliders.map{ $0.enabled = !isSliderEnabled! }
@@ -147,7 +144,7 @@ class ViewController: UIViewController {
         lblCompRatio.text = String(format:"%.2f:1", compressor.compRatio.value)
         lblAttackTime.text = String(format:"%.3f sec", compressor.attackTime.value)
         lblReleaseTime.text = String(format:"%.3f sec", compressor.releaseTime.value)
-        lblGain.text = String(format:"%.1f dB", 6.0) // Due to the absence of out signal (compressor is turned off), unable to calculate gain value in dB
+        lblGain.text = String(format:"%.1f dB", scaleTodB(amp1: 1, amp2: compressor.gain.value))
     }
     
     func updateLevelMeterUI() {
