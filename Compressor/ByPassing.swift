@@ -7,7 +7,7 @@ class ByPassing: AKInstrument {
     private var microphone = AKAudioInput()
     private var audioOutput = AKAudioOutput()
     
-    let auxilliaryOutput = AKAudio()
+    var auxilliaryOutput = AKAudio()
     
     override init() {
         super.init()
@@ -18,6 +18,6 @@ class ByPassing: AKInstrument {
         connect(audioOutput)
         
         auxilliaryOutput = AKAudio.globalParameter()
-        self.assignOutput(auxilliaryOutput, to: microphone)
+        assignOutput(auxilliaryOutput, to: microphone)
     }
 }

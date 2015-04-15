@@ -81,7 +81,7 @@ class ViewController: UIViewController {
     @IBAction func onOffCompressing(sender: UIButton) {
         toggleSliders()
         
-        if (sender.currentTitle == "Off") {
+        if sender.currentTitle == "Off" {
             analysisSequence.play()
             compressor.play()
             byPassing.stop()
@@ -128,7 +128,7 @@ class ViewController: UIViewController {
     //MARK: Update UI
     
     func toggleSliders() {
-        var sliders = self.view.subviews.filter(){ $0 is UISlider } as [UISlider]
+        var sliders = self.view.subviews.filter(){ $0 is UISlider } as! [UISlider]
         let isSliderEnabled = sliders.first?.enabled
         sliders.map{ $0.enabled = !isSliderEnabled! }
     }
@@ -148,16 +148,16 @@ class ViewController: UIViewController {
     }
     
     func updateLevelMeterUI() {
-        if (outputAnalyzer.trackedAmplitude.value > 0.0) {
+        if outputAnalyzer.trackedAmplitude.value > 0.0 {
             levelMeter.level = CGFloat(outputAnalyzer.trackedAmplitude.value)
             levelMeter.setNeedsDisplay()
         }
         
-        if (Float(levelMeter.peakLevel) < outputAnalyzer.trackedAmplitude.value) {
+        if Float(levelMeter.peakLevel) < outputAnalyzer.trackedAmplitude.value {
             levelMeter.peakLevel = CGFloat(outputAnalyzer.trackedAmplitude.value)
             
             //To turn off the peakLevel led, only the most recent timer prevails
-            if ((timerPeakLevelOff?.valid) != nil) { timerPeakLevelOff?.invalidate() }
+            if (timerPeakLevelOff?.valid) != nil { timerPeakLevelOff?.invalidate() }
             timerPeakLevelOff = NSTimer.scheduledTimerWithTimeInterval(PEAKLEVEL_OFF_RATE, target:self, selector: Selector("turnOffPeakLevelLed"), userInfo: nil, repeats: false)
         }
     }
