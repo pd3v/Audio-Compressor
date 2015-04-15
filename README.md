@@ -6,7 +6,7 @@ This is a stomp box like Compressor. You can tried it out with a guitar plugged 
 Created based on `AKCompressor`class from [AudioKit](http://audiokit.io/)  1.3.
 
 <p align="center">
-  <img src="https://github.com/pd3v/Compressor/blob/master/Compressor/compressor_app_ui.png" alt="Compressor UI" height="600px"/>
+  <img src="https://github.com/pd3v/Compressor/blob/master/Compressor/compressor_app_ux.png" alt="Compressor UI" height="600px"/>
 </p>
 
 
