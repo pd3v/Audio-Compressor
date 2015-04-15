@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3A25CF9F1AD5A05700DB03A7 /* ByPassing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A25CF9E1AD5A05700DB03A7 /* ByPassing.swift */; };
+		3A7A01471ADEC7D300BE6FBF /* compressor_app_ux.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A7A01461ADEC7D300BE6FBF /* compressor_app_ux.png */; };
 		3A8C367D1A714CF3002F2DDD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8C367C1A714CF3002F2DDD /* AppDelegate.swift */; };
 		3A8C36821A714CF3002F2DDD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A8C36801A714CF3002F2DDD /* Main.storyboard */; };
 		3A8C36841A714CF3002F2DDD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A8C36831A714CF3002F2DDD /* Images.xcassets */; };
@@ -172,6 +173,7 @@
 
 /* Begin PBXFileReference section */
 		3A25CF9E1AD5A05700DB03A7 /* ByPassing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ByPassing.swift; sourceTree = "<group>"; };
+		3A7A01461ADEC7D300BE6FBF /* compressor_app_ux.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = compressor_app_ux.png; sourceTree = "<group>"; };
 		3A8C36771A714CF3002F2DDD /* Compressor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Compressor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A8C367B1A714CF3002F2DDD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3A8C367C1A714CF3002F2DDD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -550,6 +552,7 @@
 		3A8C367A1A714CF3002F2DDD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				3A7A01461ADEC7D300BE6FBF /* compressor_app_ux.png */,
 				3A8C367B1A714CF3002F2DDD /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -1283,6 +1286,7 @@
 				3ACF17551ABD8CAE002AFB2F /* LICENSE.TXT in Resources */,
 				3A8C36821A714CF3002F2DDD /* Main.storyboard in Resources */,
 				3ACF175C1ABD8CAE002AFB2F /* PianoBassDrumLoop.wav in Resources */,
+				3A7A01471ADEC7D300BE6FBF /* compressor_app_ux.png in Resources */,
 				3A8C36841A714CF3002F2DDD /* Images.xcassets in Resources */,
 				3ACF17501ABD8CAE002AFB2F /* AudioKit.plist in Resources */,
 				3ACF175A1ABD8CAE002AFB2F /* mandpluk.aif in Resources */,
