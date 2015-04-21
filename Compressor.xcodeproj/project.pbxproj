@@ -8,12 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		3A25CF9F1AD5A05700DB03A7 /* ByPassing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A25CF9E1AD5A05700DB03A7 /* ByPassing.swift */; };
-		3A7A01471ADEC7D300BE6FBF /* compressor_app_ux.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A7A01461ADEC7D300BE6FBF /* compressor_app_ux.png */; };
+		3A7A01471ADEC7D300BE6FBF /* compressor_app_ui.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A7A01461ADEC7D300BE6FBF /* compressor_app_ui.png */; };
+		3A8A31AA1AE68D190078E8AD /* Compressor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8A31A91AE68D190078E8AD /* Compressor.swift */; };
 		3A8C367D1A714CF3002F2DDD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8C367C1A714CF3002F2DDD /* AppDelegate.swift */; };
 		3A8C36821A714CF3002F2DDD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A8C36801A714CF3002F2DDD /* Main.storyboard */; };
 		3A8C36841A714CF3002F2DDD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A8C36831A714CF3002F2DDD /* Images.xcassets */; };
 		3A8C36931A714CF3002F2DDD /* CompressorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8C36921A714CF3002F2DDD /* CompressorTests.swift */; };
-		3A8C369D1A714D38002F2DDD /* Compressor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8C369C1A714D38002F2DDD /* Compressor.swift */; };
 		3A8C36A11A714D8D002F2DDD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8C36A01A714D8D002F2DDD /* ViewController.swift */; };
 		3ACF17471ABD8CAE002AFB2F /* AKEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ACF15E71ABD8CAD002AFB2F /* AKEvent.m */; };
 		3ACF17481ABD8CAE002AFB2F /* AKInstrument.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ACF15EA1ABD8CAD002AFB2F /* AKInstrument.m */; };
@@ -173,7 +173,8 @@
 
 /* Begin PBXFileReference section */
 		3A25CF9E1AD5A05700DB03A7 /* ByPassing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ByPassing.swift; sourceTree = "<group>"; };
-		3A7A01461ADEC7D300BE6FBF /* compressor_app_ux.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = compressor_app_ux.png; sourceTree = "<group>"; };
+		3A7A01461ADEC7D300BE6FBF /* compressor_app_ui.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = compressor_app_ui.png; sourceTree = "<group>"; };
+		3A8A31A91AE68D190078E8AD /* Compressor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Compressor.swift; sourceTree = "<group>"; };
 		3A8C36771A714CF3002F2DDD /* Compressor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Compressor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A8C367B1A714CF3002F2DDD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3A8C367C1A714CF3002F2DDD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -182,7 +183,6 @@
 		3A8C368C1A714CF3002F2DDD /* CompressorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CompressorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A8C36911A714CF3002F2DDD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3A8C36921A714CF3002F2DDD /* CompressorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompressorTests.swift; sourceTree = "<group>"; };
-		3A8C369C1A714D38002F2DDD /* Compressor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Compressor.swift; path = ../../_Compressor/Compressor.swift; sourceTree = "<group>"; };
 		3A8C36A01A714D8D002F2DDD /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		3A8C389B1A714E1B002F2DDD /* SwiftCompressor-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SwiftCompressor-Bridging-Header.h"; sourceTree = "<group>"; };
 		3ACF15E61ABD8CAD002AFB2F /* AKEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AKEvent.h; sourceTree = "<group>"; };
@@ -540,7 +540,7 @@
 			children = (
 				3A8C367C1A714CF3002F2DDD /* AppDelegate.swift */,
 				3A25CF9E1AD5A05700DB03A7 /* ByPassing.swift */,
-				3A8C369C1A714D38002F2DDD /* Compressor.swift */,
+				3A8A31A91AE68D190078E8AD /* Compressor.swift */,
 				3A8C36A01A714D8D002F2DDD /* ViewController.swift */,
 				3A8C36801A714CF3002F2DDD /* Main.storyboard */,
 				3A8C36831A714CF3002F2DDD /* Images.xcassets */,
@@ -552,7 +552,7 @@
 		3A8C367A1A714CF3002F2DDD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				3A7A01461ADEC7D300BE6FBF /* compressor_app_ux.png */,
+				3A7A01461ADEC7D300BE6FBF /* compressor_app_ui.png */,
 				3A8C367B1A714CF3002F2DDD /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -1286,7 +1286,7 @@
 				3ACF17551ABD8CAE002AFB2F /* LICENSE.TXT in Resources */,
 				3A8C36821A714CF3002F2DDD /* Main.storyboard in Resources */,
 				3ACF175C1ABD8CAE002AFB2F /* PianoBassDrumLoop.wav in Resources */,
-				3A7A01471ADEC7D300BE6FBF /* compressor_app_ux.png in Resources */,
+				3A7A01471ADEC7D300BE6FBF /* compressor_app_ui.png in Resources */,
 				3A8C36841A714CF3002F2DDD /* Images.xcassets in Resources */,
 				3ACF17501ABD8CAE002AFB2F /* AudioKit.plist in Resources */,
 				3ACF175A1ABD8CAE002AFB2F /* mandpluk.aif in Resources */,
@@ -1336,6 +1336,7 @@
 				3ACF174F1ABD8CAE002AFB2F /* AKSequence.m in Sources */,
 				3ACF178E1ABD8CAE002AFB2F /* AKPhasor.m in Sources */,
 				3ACF174C1ABD8CAE002AFB2F /* AKOrchestra.m in Sources */,
+				3A8A31AA1AE68D190078E8AD /* Compressor.swift in Sources */,
 				3ACF17C31ABD8CAE002AFB2F /* AKVariableFrequencyResponseBandPassFilter.m in Sources */,
 				3A8C36A11A714D8D002F2DDD /* ViewController.swift in Sources */,
 				3ACF17AF1ABD8CAE002AFB2F /* AKConvolution.m in Sources */,
@@ -1363,7 +1364,6 @@
 				3ACF17761ABD8CAE002AFB2F /* AKWeightedSumOfSinusoids.m in Sources */,
 				3ACF177C1ABD8CAE002AFB2F /* AKMaximum.m in Sources */,
 				3ACF17C41ABD8CAE002AFB2F /* AKBandPassButterworthFilter.m in Sources */,
-				3A8C369D1A714D38002F2DDD /* Compressor.swift in Sources */,
 				3ACF178B1ABD8CAE002AFB2F /* AKFMOscillator.m in Sources */,
 				3ACF17871ABD8CAE002AFB2F /* AKGranularSynthesizer.m in Sources */,
 				3ACF17CB1ABD8CAE002AFB2F /* AKReverb.m in Sources */,

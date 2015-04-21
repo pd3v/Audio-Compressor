@@ -1,6 +1,5 @@
 
-//  Created by paulo.develop@gmail.com on 22/01/15.
-//  Copyright (c) 2015 xyz. All rights reserved.
+//  Created by paulo.develop@gmail.com
 
 import UIKit
 
@@ -21,8 +20,8 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var levelMeter: LevelMeter!
 
-    private let LEVELMETER_REFRESHING_RATE: Float = 0.01
-    private let PEAKLEVEL_OFF_RATE: Double = 1.5
+    private let LEVELMETER_REFRESHING_SEC: Float = 0.01
+    private let PEAKLEVEL_OFF_SEC: Double = 1.5
 
     var byPassing: ByPassing
     var compressor: Compressor
@@ -67,7 +66,7 @@ class ViewController: UIViewController {
         analysisSequence = AKSequence()
         updateAnalysis = AKEvent(block: {
             self.updateLevelMeterUI()
-            self.analysisSequence.addEvent(self.updateAnalysis, afterDuration: self.LEVELMETER_REFRESHING_RATE)
+            self.analysisSequence.addEvent(self.updateAnalysis, afterDuration: self.LEVELMETER_REFRESHING_SEC)
         })
         
         analysisSequence.addEvent(updateAnalysis)
@@ -76,6 +75,7 @@ class ViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         AKOrchestra.reset()
+        AKManager.sharedManager().stop()
     }
 
     @IBAction func onOffCompressing(sender: UIButton) {
@@ -122,7 +122,7 @@ class ViewController: UIViewController {
     
     @IBAction func gainChanged(sender: UISlider) {
         AKTools.setProperty(compressor.gain, withSlider: sender)
-        lblGain.text = String(format:"%.1f dB", scaleTodB(amp1: notScaledOutputAnalyzer.trackedAmplitude.value, amp2: outputAnalyzer.trackedAmplitude.value))
+        lblGain.text = String(format:"%.1f dB", amplitudeTodB(amp1: notScaledOutputAnalyzer.trackedAmplitude.value, amp2: outputAnalyzer.trackedAmplitude.value))
     }
     
     //MARK: Update UI
@@ -144,7 +144,7 @@ class ViewController: UIViewController {
         lblCompRatio.text = String(format:"%.2f:1", compressor.compRatio.value)
         lblAttackTime.text = String(format:"%.3f sec", compressor.attackTime.value)
         lblReleaseTime.text = String(format:"%.3f sec", compressor.releaseTime.value)
-        lblGain.text = String(format:"%.1f dB", scaleTodB(amp1: 1, amp2: compressor.gain.value))
+        lblGain.text = String(format:"%.1f dB", amplitudeTodB(amp1: 1, amp2: compressor.gain.value))
     }
     
     func updateLevelMeterUI() {
@@ -158,7 +158,7 @@ class ViewController: UIViewController {
             
             //To turn off the peakLevel led, only the most recent timer prevails
             if (timerPeakLevelOff?.valid) != nil { timerPeakLevelOff?.invalidate() }
-            timerPeakLevelOff = NSTimer.scheduledTimerWithTimeInterval(PEAKLEVEL_OFF_RATE, target:self, selector: Selector("turnOffPeakLevelLed"), userInfo: nil, repeats: false)
+            timerPeakLevelOff = NSTimer.scheduledTimerWithTimeInterval(PEAKLEVEL_OFF_SEC, target:self, selector: Selector("turnOffPeakLevelLed"), userInfo: nil, repeats: false)
         }
     }
     
@@ -167,13 +167,9 @@ class ViewController: UIViewController {
         levelMeter.setNeedsDisplay()
     }
     
-    //MARK: Conversion formulas from amplitude to dB
+    //MARK: Conversion formula from amplitude to dB
     
-    func amplitudeTodB(amplitude: Float) -> Float {
-        return 20 * log10(amplitude)
-    }
-    
-    func scaleTodB(#amp1: Float, amp2: Float) -> Float {
+    func amplitudeTodB(#amp1: Float, amp2: Float) -> Float {
         return 20 * log10(amp2/amp1)
     }
 }
