@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>AD95F0DF-1005-45AB-B85A-3E281C6CFA95</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Compressor</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>2AAEAA9040E1849A6F74BF7402780AE0C9EBB6FC</key>
+		<string>https://github.com/pd3v/Compressor.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Compressor.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>2AAEAA9040E1849A6F74BF7402780AE0C9EBB6FC</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/pd3v/Compressor.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>2AAEAA9040E1849A6F74BF7402780AE0C9EBB6FC</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>2AAEAA9040E1849A6F74BF7402780AE0C9EBB6FC</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Compressor</string>
+		</dict>
+	</array>
+</dict>
+</plist>
