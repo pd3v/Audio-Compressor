@@ -1,4 +1,4 @@
-# Compressor
+# Audio Compressor
 Compressor for audio input.
 
 This is a stomp box like Compressor. You can tried it out with a guitar plugged into an iRig adapter. When off, works as a bypass like any effect foot pedal.
