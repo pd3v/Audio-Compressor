@@ -1,7 +1,7 @@
 # Audio Compressor
 Compressor for audio input.
 
-This is a stomp box like Compressor. You can tried it out with a guitar plugged into an iRig adapter. When off, works as a bypass like any effect foot pedal.
+This is a stomp box like Compressor. You can try it out with a guitar plugged into an iRig adapter. When off, works as a bypass like any effect foot pedal.
 
 Created to experiment with [AudioKit](http://audiokit.io/) API. Based on `AKCompressor`class from [AudioKit](http://audiokit.io/) 1.3.
 
